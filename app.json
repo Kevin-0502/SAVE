@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "drawer-navigator",
+    "name": "SAVE",
     "slug": "snack-0ab5aeaa-cb40-4514-99cd-5aafa0d5421b",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,16 +18,30 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyDnPbjA2pjSpNfB8SfAkiYZt3Yf9FFK244"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDnPbjA2pjSpNfB8SfAkiYZt3Yf9FFK244"
+        }
+      },
+      "package": "com.kevin_05_2002.snack0ab5aeaacb40451499cd5aafa0d5421b"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "94caf94b-e4d4-41ab-8d24-0c0d50e24748"
+      }
     }
   }
 }
