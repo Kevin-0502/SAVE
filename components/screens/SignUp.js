@@ -9,11 +9,14 @@ import Icon from 'react-native-vector-icons/Ionicons';//import icons(Importació
 
 export default function SignUp({navigation}) {
 
-    const [user, setUser] = useState('');//Variable for get the input user(variable para capturar el input de usuario)
+    const [user_id, setUser_id] = useState('');//Variable for get the input user(variable para capturar el input de usuario)
+    const [user_name, setUser_name] = useState('');//Variable for get the input user(variable para capturar el input de usuario)
+    const [user_email, setUser_email] = useState('');//Variable for get the input user(variable para capturar el input de usuario)
     const [password, setPassword] = useState('');//Variable for get the input password(variable para capturar el input de contraseña)
     const [password_confirm, setPasswordConfirm] = useState('');//Variable for get the input password(variable para capturar el input de contraseña)
     const [showhide, setShowhide] = useState(true);//Variable to protect the password(variable para mostrar y esconder la contraseña)
     const [loading, setLoading] = useState(false);//variable for loading spinner(variable para el spinner de loading)
+
 
     function startLoading(succes,time){
         setLoading(true);
@@ -38,7 +41,9 @@ export default function SignUp({navigation}) {
           textStyle={{color:'#FFFFFF',}}
         />              
         <Image source={require('../../assets/logo.png')} style={styles.image} />
-        <TextInput style={styles.inputTxt} placeholder='Example@gmail.com' onChangeText={user => setUser(user)} defaultValue={user} placeholderTextColor={'gray'}/>
+        <TextInput style={styles.inputTxt} placeholder='Carnet de Estudiante' onChangeText={user_id => setUser_id(user_id)} defaultValue={user_id} placeholderTextColor={'gray'}/>
+        <TextInput style={styles.inputTxt} placeholder='Nombre completo' onChangeText={user_name => setUser_name(user_name)} defaultValue={user_name} placeholderTextColor={'gray'}/>
+        <TextInput style={styles.inputTxt} placeholder='Email' onChangeText={user_email => setUser_email(user_email)} defaultValue={user_email} placeholderTextColor={'gray'}/>
         <TextInput style={styles.inputTxt} placeholder='Password' onChangeText={password => setPassword(password)} defaultValue={password} secureTextEntry={showhide} placeholderTextColor={'gray'}/> 
         <TextInput style={styles.inputTxt} placeholder='Confirm Password' onChangeText={password_confirm => setPasswordConfirm(password_confirm)} defaultValue={password_confirm} secureTextEntry={showhide} placeholderTextColor={'gray'}/> 
         <Icon.Button 

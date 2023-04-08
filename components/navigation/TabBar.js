@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Home from '../screens/Home'
-import Details from '../screens/Details'
+import Products from '../screens/Products'
 import Locations from '../screens/Locations'
-import Favorite from '../screens/Favorite'
+import ExpenseNavigation from './ExpenseNavigation';
 import Profile from '../screens/Profile'
 import colors from '../colors'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -26,14 +26,14 @@ export default function TabBar_Navigation({navigation}){
               case 'Home':
                 iconName = focused ? 'home' : 'home-outline';
                   break;
-              case 'Details':
-                iconName = focused ? 'aperture' : 'aperture-outline';
+              case 'Products':
+                iconName = focused ? 'cart' : 'cart-outline';
                   break;
               case 'Locations':
                 iconName = focused ? 'map' : 'map-outline';
                   break;
-              case 'Favorite':
-                iconName = focused ? 'bookmarks' : 'bookmarks-outline'
+              case 'Expenses':
+                iconName = focused ? 'wallet' : 'wallet-outline'
                   break;
               case 'Profile':
                 iconName = focused ? 'person' : 'person-outline'
@@ -50,8 +50,8 @@ export default function TabBar_Navigation({navigation}){
         tabBarInactiveTintColor:colors.SecondaryColor,
       })}>
       <TabBar.Screen name={'Home'} component={Home}/>
-      <TabBar.Screen name={'Details'} component={Details}/>
-      <TabBar.Screen name={'Favorite'} component={Favorite}/>
+      <TabBar.Screen name={'Products'} component={Products}/>
+      <TabBar.Screen name={'Expenses'} component={ExpenseNavigation}/>
       <TabBar.Screen name={'Locations'} component={Locations}/>
       <TabBar.Screen name={'Profile'} component={Profile}/>
     </TabBar.Navigator>

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { ScrollView ,StyleSheet, Text, View, Button, TextInput, Image, Alert,TouchableHighlight  } from 'react-native';
 import colors from '../colors';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Icon from 'react-native-vector-icons/Ionicons';//import icons(Importación de iconos)
 
@@ -10,25 +10,51 @@ import Icon from 'react-native-vector-icons/Ionicons';//import icons(Importació
 
 export default function Login({navigation}) {
 
-    //BackHandler.addEventListener("hardwareBackPress",Alert.alert('CERRAR SESIÓN','Desea cerrar sesión?',[{text: 'Cancel',style:'cancel'},{text: 'Ok'}],{cancelable: false}))
-
-
     const [user, setUser] = useState('');//Variable for get the input user(variable para capturar el input de usuario)
     const [password, setPassword] = useState('');//Variable for get the input password(variable para capturar el input de contraseña)
     const [showhide, setShowhide] = useState(true);//Variable to protect the password(variable para mostrar y esconder la contraseña)
     const [loading, setLoading] = useState(false);//variable for loading spinner(variable para el spinner de loading)
+    const [dbusers, setDbusers] = useState([]);
+    var url_users='https://save-appudb.000webhostapp.com/api/users'
+
+    useEffect(()=>{
+        fetch(url_users).then(response=>response.json()).then(resjson=>setDbusers(resjson))
+    },[])
 
     function startLoading(succes,time){
         setLoading(true);
         setTimeout(() => {
-        if(!succes)
-            Alert.alert('Ingreso Fallido','Debe rellenar todos los campos')
+        switch(succes){
+            case 'succes_data':
+                
+                break;
+            case 'bad_data':
+                Alert.alert('Ingreso Fallido','Su usuario o contraseña no son correctos')
+                break;
+            case 'no_data':
+                Alert.alert('Ingreso Fallido','Debe rellenar todos los campos')
+                break;
+            
+        }
         setLoading(false);
         }, time);
-    };
+    }
+
+    const auth_user = (dbusers,user,password)=>{
+        var is_auth=false;
+        dbusers.forEach(user_data => {
+            if(user_data.user_id==user && user_data.password==password){
+                console.log(user_data);
+                global.iduser=user_data.user_id;
+                global.nameuser=user_data.name;
+                global.emailuser=user_data.email;
+                is_auth=true;
+            }
+        });
+        return is_auth;
+    }
 
   return (
-    
     <ScrollView style={styles.scroll_container}>
             <View style={styles.container}>  
                 <Spinner
@@ -40,7 +66,7 @@ export default function Login({navigation}) {
                   textStyle={{color:'#FFFFFF',}}
                 />              
                 <Image source={require('../../assets/logo.png')} style={styles.image} />
-                <TextInput style={styles.inputTxt} placeholder='Example@gmail.com' onChangeText={user => setUser(user)} defaultValue={user} placeholderTextColor={'gray'}/>
+                <TextInput style={styles.inputTxt} placeholder='Carnet de Estudiante' onChangeText={user => setUser(user)} defaultValue={user} placeholderTextColor={'gray'}/>
                 <TextInput style={styles.inputTxt} placeholder='Password' onChangeText={password => setPassword(password)} defaultValue={password} secureTextEntry={showhide} placeholderTextColor={'gray'}/> 
                 <Icon.Button 
                     name={showhide?'eye':'eye-off'} 
@@ -51,14 +77,15 @@ export default function Login({navigation}) {
                 </Icon.Button>
                 <TouchableHighlight style={styles.button} onPress={() => {         
                     if (user!='' && password!='') {
-                        global.iduser=user;
-                        startLoading(true,500);  
-                        navigation.navigate('Main');
-                        setUser('');
-                        setPassword('');
+                        if(auth_user(dbusers,user,password)){
+                            startLoading('succes_data',500);  
+                            navigation.navigate('Main');
+                            setUser('');
+                            setPassword('');    
+                        }else{startLoading('bad_data',2000)}
                     }
                     else{
-                      startLoading(false,2000) 
+                      startLoading('no_data',2000) 
                     }
                 }}>
                     <Text style={styles.button_txt}>Ingresar</Text>

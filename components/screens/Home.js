@@ -2,6 +2,8 @@ import { StyleSheet, Text, SafeAreaView ,FlatList,View, Image,Dimensions,BackHan
 import React from 'react'
 import advices from '../data'
 import colors from '../colors'
+import Icon from 'react-native-vector-icons/Ionicons';//import icons(Importación de iconos)
+
 
 const {width,height}=Dimensions.get('screen')
 
@@ -12,11 +14,13 @@ const SlideItem = ({item}) =>{
       <View style={styles.container_item}>
         <Text style={styles.content_txt_title}>Consejo {item.id}</Text>
         <Image style={styles.image_item} source={item.img}/>
+        <Icon name='md-chevron-forward-outline' color={colors.LightColor} size={25} style={styles.arrow}/>
         <View style={styles.content_item}>
           <Text style={styles.content_txt_title}>{item.title}</Text>
           <Text style={styles.content_txt_description}>{item.description}</Text>
         </View>
       </View>
+      <View style={styles.bottom}></View>
     </ScrollView>
     )
 }
@@ -51,7 +55,7 @@ const styles = StyleSheet.create({
       height:height*0.30,
     },
     content_item:{
-      marginTop:30,
+      marginTop:5,
       paddingHorizontal:30,
       alignItems: 'center',
       backgroundColor:colors.LightColor,
@@ -70,4 +74,12 @@ const styles = StyleSheet.create({
       fontSize:19,
       textAlign:'justify',
     },
+    arrow:{
+      marginRight:30,
+      textAlign:'right',
+      width:width,
+    },
+    bottom:{
+      height: height/15,
+    }
 })

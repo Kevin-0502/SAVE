@@ -2,22 +2,28 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Image, Alert,TouchableHighlight,Linking } from 'react-native';
 import colors from '../colors';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Icon from 'react-native-vector-icons/Ionicons';//import icons(Importación de iconos)
 
 export default function Profile({navigation}) {
 
     const [loading, setLoading] = useState(false);//variable for loading spinner(variable para el spinner de loading)
+    const [dbusers, setDbusers] = useState([]);
     let url_facebok = "https://www.facebook.com/UDBelsalvador/"
     let url_instagram = "https://www.instagram.com/udbelsalvador/"
     let url_linkedin = "https://www.linkedin.com/school/udbelsalvador/mycompany/"
-
+    var url_users='https://save-appudb.000webhostapp.com/api/users'
+    
     function startLoading(succes,time){
         setTimeout(() => {
         setLoading(false);
         }, time);
     };
+
+    useEffect(()=>{
+        fetch(url_users).then(response=>response.json()).then(resjson=>setDbusers(resjson))
+    },[])
 
   return (
     <View style={styles.container}>  
@@ -30,7 +36,13 @@ export default function Profile({navigation}) {
           textStyle={{color:'#FFFFFF',}}
         />              
         <Image source={require('../../assets/man.png')} style={styles.image} />
-        <Text style={styles.txt}>{global.iduser}</Text>
+
+        <View style={styles.user_data}>
+            <Text style={styles.txt}>{global.iduser}</Text>
+            <Text style={styles.txt}>{global.nameuser}</Text>
+            <Text style={styles.txt}>{global.emailuser}</Text>
+        </View>
+        
         <TouchableHighlight style={styles.button} onPress={() => {    
             startLoading(true,500)     
             navigation.navigate('Login')
@@ -71,13 +83,30 @@ const styles = StyleSheet.create({
     image:{
         height: 280, 
         width: 280, 
-        margin:30,
+        margin:10,
+    },
+    user_data:{
+        backgroundColor:colors.LightColor,
+        borderRadius:20,
+        padding:20,
+        width:'90%',
+        borderWidth: 2,
+        borderColor: '#eee',
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: -10,
+            height: 10,
+        },
+        shadowOpacity:  0.05,
+        shadowRadius: 3.05,
+        elevation: 4,
+        marginTop:20,
     },
     txt:{
-        color:colors.DarkColor,
-        textAlign:'center',
+        fontSize:18,
         fontWeight:'bold',
-        fontSize:32,
+        marginBottom:5,
+        textAlign:'center'
     },
     button:{
         backgroundColor:colors.SecondaryColor,
