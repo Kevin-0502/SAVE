@@ -6,8 +6,6 @@ import { useState,useEffect } from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Icon from 'react-native-vector-icons/Ionicons';//import icons(Importación de iconos)
 
-
-
 export default function Login({navigation}) {
 
     const [user, setUser] = useState('');//Variable for get the input user(variable para capturar el input de usuario)
