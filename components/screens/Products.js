@@ -29,6 +29,14 @@ export default function Products() {
   const [unitPrice,setUnitPrice]=useState(0.0);
 
   var url_products='https://save-appudb.000webhostapp.com/api/products'
+  var url_buy_item='https://save-appudb.000webhostapp.com/api/expenses'
+
+  function close_modal(){
+    setDescription("")
+    setUnits(0)
+    setUnitPrice(0.0)
+    setModalVisible(!modalVisible) 
+  } 
 
   useEffect(()=>{
     fetch(url_products).then(response=>response.json()).then(resjson=>setProdcuts(resjson))
@@ -68,12 +76,37 @@ export default function Products() {
             <View style={styles.buttons}>
               <TouchableHighlight
                 style={[styles.button,{backgroundColor:'red'}]}
-                onPress={() => setModalVisible(!modalVisible)}>
+                onPress={() => close_modal()}>
                 <Text style={styles.button_text}>Cancelar  <Icon name='close-circle' size={24}/></Text>
               </TouchableHighlight>
               <TouchableHighlight
                 style={styles.button}
-                onPress={() => setModalVisible(!modalVisible)}>
+                onPress={() => {
+                  //validaciones de campos del modal
+                  if(description==''||units<0||unitPrice<0)
+                  {
+                    Alert.alert('Datos incomplentos','Ingrese correctamente los datos')
+                  }else
+                  {
+                    var data={
+                      product_id: add_products.product_id,
+                      user_id: global.iduser,
+                      expense_description: description,
+                      expense_units: units,
+                      expense_unitprice: unitPrice
+                    }
+                    fetch(url_buy_item, {
+                      method: 'POST',
+                      body: JSON.stringify(data),
+                      headers: {
+                        'Content-Type': 'application/json',
+                      }
+                    })
+                    console.log(JSON.stringify(data))
+                    close_modal()
+                  }
+                 
+                }}>
                 <Text style={styles.button_text}>Comprar  <Icon name='add-circle' size={24}/></Text>
               </TouchableHighlight>
             </View>
