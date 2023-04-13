@@ -44,11 +44,25 @@ export default function Profile({navigation}) {
         </View>
         
         <TouchableHighlight style={styles.button} onPress={() => {    
-            startLoading(true,500)     
-            navigation.navigate('Login')
-        }}>
-            <Text style={styles.button_txt}>Cerrar Sesion</Text>
-        </TouchableHighlight>
+                Alert.alert('Cerrar Sesión','Esta seguro que desea cerrar sesión',
+                [
+                    {
+                        text: 'OK',
+                        onPress: ()=>{
+                            startLoading(true,500)
+                            navigation.navigate('Login')
+                        },
+                        style:'default',
+                    },
+                    {
+                        text: 'Cancel',
+                        onPress: ()=>{},
+                        style:'cancel',
+                    }
+                ]) 
+            }}>
+                <Text style={styles.button_txt}>Cerrar Sesion</Text>
+            </TouchableHighlight>
         <Text>
             <Icon.Button 
                 name={'logo-facebook'} 

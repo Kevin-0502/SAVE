@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ScrollView,View,Image,Dimensions,SafeAreaView} from 'react-native'
+import { StyleSheet, Text, ScrollView,View,Dimensions,Button} from 'react-native'
 import React,{useState,useEffect} from 'react'
 import colors from '../colors'
 import images from '../images';
@@ -12,11 +12,14 @@ export default function Expenses({navigation}) {
   const [expenses,setExpenses]=useState([])
   var total_expenses=0;
 
-
   var url_get_products='https://save-appudb.000webhostapp.com/api/expenses/user/'+global.iduser;
 
-  useEffect(()=>{
+  function fetch_products(){
     fetch(url_get_products).then(response=>response.json()).then(resjson=>setExpenses(resjson))
+  }
+
+  useEffect(()=>{
+    fetch_products()
   },[])
 
   return (
@@ -44,7 +47,7 @@ export default function Expenses({navigation}) {
             )      
           })
         }
-        
+        <Button title='reload' onPress={()=>{fetch_products()}}/>
       </ScrollView>
       <View style={styles.footer}>
         <Text style={styles.total_expenses}>Gasto total =  ${total_expenses.toFixed(2)}</Text>
