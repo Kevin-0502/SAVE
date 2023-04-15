@@ -14,7 +14,7 @@ const SlideItem = ({item}) =>{
       <View style={styles.container_item}>
         <Text style={styles.content_txt_title}>Consejo {item.id}</Text>
         <Image style={styles.image_item} source={item.img}/>
-        <Icon name='md-chevron-forward-outline' color={colors.LightColor} size={25} style={styles.arrow}/>
+        <Icon name={item.icon} color={colors.LightColor} size={25} style={styles.arrow}/>
         <View style={styles.content_item}>
           <Text style={styles.content_txt_title}>{item.title}</Text>
           <Text style={styles.content_txt_description}>{item.description}</Text>
@@ -60,9 +60,9 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       backgroundColor:colors.LightColor,
       width:width,
-      height:height/2,
       borderTopStartRadius:30,
       borderTopEndRadius:30,
+      paddingBottom:height*0.15,
     },
     content_txt_title:{
       textAlign:'center',
