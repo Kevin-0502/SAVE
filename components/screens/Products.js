@@ -72,7 +72,7 @@ export default function Products() {
               <Text style={styles.modal_txt}>Comprar {add_products.product_name}</Text>
               <TextInput style={styles.inputTxt} placeholder='Descripción' onChangeText={description => setDescription(description)} defaultValue={description} placeholderTextColor={'gray'}/>
               <TextInput style={styles.inputTxt} placeholder='Unidades' onChangeText={units => setUnits(units)} defaultValue={units} placeholderTextColor={'gray'} keyboardType='numeric'/>
-              <TextInput style={styles.inputTxt} placeholder='Precio Unitario' onChangeText={unitPrice => setUnitPrice(unitPrice)} defaultValue={unitPrice} placeholderTextColor={'gray'} keyboardType='numeric'/>
+              <TextInput style={styles.inputTxt} placeholder='Precio Unitario $' onChangeText={unitPrice => setUnitPrice(unitPrice)} defaultValue={unitPrice} placeholderTextColor={'gray'} keyboardType='numeric'/>
             <View style={styles.buttons}>
               <TouchableHighlight
                 style={[styles.button,{backgroundColor:'red'}]}
@@ -83,7 +83,7 @@ export default function Products() {
                 style={styles.button}
                 onPress={() => {
                   //validaciones de campos del modal
-                  if(description==''||units<0||unitPrice<0)
+                  if(description==''||units<=0||unitPrice<=0)
                   {
                     Alert.alert('Datos incomplentos','Ingrese correctamente los datos')
                   }else
