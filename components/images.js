@@ -21,4 +21,3 @@ export default{
         'PRO019':require('../assets/PRO019.png'),
     }
 }
-    

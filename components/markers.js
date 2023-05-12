@@ -14,4 +14,3 @@ export default[
         longitude:-89.1529652,
     },
 ]
-    
