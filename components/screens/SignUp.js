@@ -21,24 +21,39 @@ export default function SignUp({navigation}) {
     function startLoading(succes,time){
         setLoading(true);
         setTimeout(() => {
-        if(!succes)
-            Alert.alert('Registro Fallido','Debe rellenar todos los campos')
-            else
-            Alert.alert('Registro Exitoso','Ya puede ingresar con su usario y contraseña')
+        switch(succes){
+            case 'campos_vacios':
+                Alert.alert('Registro Fallido','Debe rellenar todos los campos')
+                break
+            case 'contraseñas_no_coinciden':
+                Alert.alert('Contraseñas Distintas','Las contraseñas deben coincidir')
+                break
+            case 'carnet_invalido':
+                Alert.alert('Carnet Invalido','Debe ingresar su carnet de estudiante de la UDB')
+                break
+            case 'all_ok':
+                Alert.alert('Registro Exitoso','Ya puede ingresar con su usario y contraseña')    
+                break
+        }
         setLoading(false);
         }, time);
     };
 
-  return (
-  <ScrollView style={styles.scroll_container}>
+    function validateCarnet(carnet){
+        var code=/^[aA-Zz]{2}[0-9]{6}$/
+        return code.test(carnet);
+    }
+
+    return (
+    <ScrollView style={styles.scroll_container}>
     <View style={styles.container}>  
         <Spinner
-          //visibility of Overlay Loading Spinner
-          visible={loading}
-          //Text with the Spinner
-          textContent={'Loading...'}
-          //Text style of the Spinner Text
-          textStyle={{color:'#FFFFFF',}}
+            //visibility of Overlay Loading Spinner
+            visible={loading}
+            //Text with the Spinner
+            textContent={'Loading...'}
+            //Text style of the Spinner Text
+            textStyle={{color:'#FFFFFF',}}
         />              
         <Image source={require('../../assets/logo.png')} style={styles.image} />
         <TextInput style={styles.inputTxt} placeholder='Carnet de Estudiante' onChangeText={user_id => setUser_id(user_id)} defaultValue={user_id} placeholderTextColor={'gray'}/>
@@ -54,16 +69,35 @@ export default function SignUp({navigation}) {
             <Text style={styles.showhide_txt}>{showhide?'Mostrar contraseña':'Ocultar contraseña'}</Text>
         </Icon.Button>
         <TouchableHighlight style={styles.button} onPress={() => {
-            if (user!='' && password!='' && password_confirm!='') {
-                global.iduser=user;
-                startLoading(true,500);  
-                navigation.goBack();
-                setUser('');
-                setPassword('');
-                setPasswordConfirm('');
+            if (user_id!='' && user_name!='' && user_email!='' && password!='' && password_confirm!='') {
+                
+                if (password == password_confirm) {
+                    if(validateCarnet(user_id)){
+                        startLoading('all_ok',500);  
+                        navigation.goBack();
+                        setUser_id('');
+                        setUser_name('');
+                        setUser_email('');
+                        setPassword('');
+                        setPasswordConfirm('');
+                    }
+                    else
+                    {
+                        startLoading('carnet_invalido',2000)
+                        setUser_id('')
+                    }
+                    
+                }
+                else
+                {
+                    startLoading('contraseñas_no_coinciden',2000);
+                    setPassword('');
+                    setPasswordConfirm('');
+                }
+                
             }
             else{
-              startLoading(false,2000) 
+                startLoading('campos_vacios',2000) 
             }
         }}>
             <Text style={styles.button_txt}>Guardar</Text>
@@ -74,8 +108,8 @@ export default function SignUp({navigation}) {
             <Text style={styles.button_txt}>Regresar</Text>
         </TouchableHighlight>
     </View>
-</ScrollView>
-  )
+    </ScrollView>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -83,11 +117,11 @@ const styles = StyleSheet.create({
         backgroundColor: colors.LightColor/*'#fff'*/,
     },
     container: {
-      flex: 1,
-      marginTop:'40%',
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingBottom:'30%',
+        flex: 1,
+        marginTop:'40%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingBottom:'30%',
     },
     image:{
         height: 280, 

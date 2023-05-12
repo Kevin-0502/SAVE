@@ -1,4 +1,4 @@
-import { StyleSheet, Text, ScrollView,View,Image,Dimensions,SafeAreaView} from 'react-native'
+import { StyleSheet, Text, ScrollView,View,Image,Dimensions,TouchableHighlight,Alert} from 'react-native'
 import React,{useState,useEffect} from 'react'
 import images from '../images';
 import colors from '../colors';
@@ -10,6 +10,7 @@ export default function ExpenseDetail({navigation,route}) {
     const {item}=route.params;
     const [product,setProduct]=useState([]);
     var url_get_product='https://save-appudb.000webhostapp.com/api/products/code/'+item.product_id;
+    var url_delete_product='https://save-appudb.000webhostapp.com/api/expenses/'+item.id;
 
     function get_date(timestamp){
         const date = new Date(timestamp);
@@ -52,6 +53,29 @@ export default function ExpenseDetail({navigation,route}) {
                 <Text style={styles.txt}>Precio Unitario:{'\n$ '+item.expense_unitprice.toFixed(2)}</Text>                        
                 <Text style={styles.txt}>Fecha y hora de compra:{'\n'+get_date(item.created_at)}</Text>                        
             </View>
+            <TouchableHighlight style={styles.button} onPress={() => {    
+                Alert.alert('Eliminar Compra','Esta seguro que desea eliminar este registro',
+                [
+                    {
+                        text: 'OK',
+                        onPress: ()=>{
+                            fetch(url_delete_product, {
+                                method: 'DELETE'
+                              }).then((response)=>response.json).then((resjson)=>console.log(resjson)).catch((error)=>console.log(error));
+                              
+                            navigation.goBack()
+                        },
+                        style:'default',
+                    },
+                    {
+                        text: 'Cancel',
+                        onPress: ()=>{},
+                        style:'cancel',
+                    }
+                ]) 
+            }}>
+                <Text style={styles.button_txt}>Eliminar Compra</Text>
+            </TouchableHighlight>
         </View>
     </ScrollView>
     
@@ -108,5 +132,20 @@ const styles = StyleSheet.create({
         fontSize:20,
         marginBottom:10,
     },
+    button:{
+        backgroundColor:'red',
+        marginTop:30,
+        marginBottom:150,
+        borderRadius:20,
+        width:'70%',
+        height:'7.5%',
+        justifyContent:'center',
+    },
+    button_txt:{
+        color:colors.LightColor,
+        textAlign:'center',
+        fontWeight:'bold',
+        fontSize:18,
+    }
 })
 
