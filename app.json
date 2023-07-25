@@ -21,7 +21,8 @@
       "supportsTablet": true,
       "config": {
         "googleMapsApiKey": "AIzaSyDnPbjA2pjSpNfB8SfAkiYZt3Yf9FFK244"
-      }
+      },
+      "bundleIdentifier": "io.expo.client"
     },
     "android": {
       "adaptiveIcon": {

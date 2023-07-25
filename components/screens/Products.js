@@ -10,7 +10,7 @@ import {
   TouchableHighlight,
   Modal,
   Alert} from 'react-native'
-import React, {useEffect,useState,useCallback, useMemo, useRef} from 'react'
+  import React, {useEffect,useState,useCallback, useMemo, useRef} from 'react'
 import colors from '../colors'
 import images from '../images';
 import Icon from 'react-native-vector-icons/Ionicons';//import icons(Importación de iconos)
@@ -105,7 +105,6 @@ export default function Products() {
                     console.log(JSON.stringify(data))
                     close_modal()
                   }
-                 
                 }}>
                 <Text style={styles.button_text}>Comprar  <Icon name='add-circle' size={24}/></Text>
               </TouchableHighlight>
