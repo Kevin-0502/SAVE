@@ -61,8 +61,8 @@ export default function ExpenseDetail({navigation,route}) {
                         onPress: ()=>{
                             fetch(url_delete_product, {
                                 method: 'DELETE'
-                              }).then((response)=>response.json).then((resjson)=>console.log(resjson)).catch((error)=>console.log(error));
-                              
+                            }).then((response)=>response.json).then((resjson)=>console.log(resjson)).catch((error)=>console.log(error));
+                            
                             navigation.goBack()
                         },
                         style:'default',

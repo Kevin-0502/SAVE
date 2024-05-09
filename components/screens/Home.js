@@ -9,7 +9,7 @@ const {width,height}=Dimensions.get('screen')
 
 const SlideItem = ({item}) =>{
   //BackHandler.addEventListener("hardwareBackPress",Alert.alert('CERRAR SESIÓN','Desea cerrar sesión?',[{text: 'Cancel',style:'cancel'},{text: 'Ok'}],{cancelable: false}))
-   return (
+  return (
     <ScrollView>
       <View style={styles.container_item}>
         <Text style={styles.content_txt_title}>Consejo {item.id}</Text>
@@ -35,7 +35,7 @@ export default function Home() {
       horizontal
       pagingEnabled
       ShowsHorizontalScrollIndicator={false}
-     />
+    />
     </SafeAreaView>
   )
 }

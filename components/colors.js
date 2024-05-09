@@ -4,4 +4,5 @@ export default{
     DarkColor:'#04401E',
     LightColor:'#fff',
     ButtonColor:'#0D0D0D',
+    AdviceColor:'#0D0D0D',
 }

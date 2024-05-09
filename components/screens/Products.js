@@ -6,22 +6,21 @@ import {
   View,
   Image,
   Dimensions,
-  SafeAreaView,
   TouchableHighlight,
   Modal,
   Alert} from 'react-native'
-  import React, {useEffect,useState,useCallback, useMemo, useRef} from 'react'
+  import React, {useEffect,useState} from 'react'
 import colors from '../colors'
 import images from '../images';
 import Icon from 'react-native-vector-icons/Ionicons';//import icons(Importación de iconos)
-import BottomSheet from '@gorhom/bottom-sheet';
 
 const {width,height}=Dimensions.get("screen")
 
 export default function Products() {
 
   const [products,setProdcuts]=useState([])
-  const [modalVisible, setModalVisible] = useState(false);
+  const [cargarLista,setCargarLista]=useState(false)
+  const [modalVisible, setModalVisible] = useState(false)
   const [add_products,setAdd_prodcuts]=useState([])
   
   const [description,setDescription]=useState("");
@@ -39,11 +38,16 @@ export default function Products() {
   } 
 
   useEffect(()=>{
-    fetch(url_products).then(response=>response.json()).then(resjson=>setProdcuts(resjson))
+    fetch(url_products).then(response=>response.json()).then(resjson=>{
+      setProdcuts(resjson) 
+      setCargarLista(true)
+    })
   },[])
- 
+
   return (
     <ScrollView style={styles.container}>
+      {cargarLista?
+      <>
       {
         products.map((item,index)=>{
           return(
@@ -60,8 +64,13 @@ export default function Products() {
         }
         )
       }
+      </>:
+      
+      <Text>Los datos estan cargando</Text>
+      }
+      
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
@@ -69,15 +78,19 @@ export default function Products() {
           setModalVisible(!modalVisible);
         }}>
           <View style={styles.modalView}>
+            <View style={styles.modal_header}>
               <Text style={styles.modal_txt}>Comprar {add_products.product_name}</Text>
-              <TextInput style={styles.inputTxt} placeholder='Descripción' onChangeText={description => setDescription(description)} defaultValue={description} placeholderTextColor={'gray'}/>
+            </View>
+            <View style={styles.modal_body}>
+              <TextInput style={styles.inputTxt} placeholder='Descripción de compra' onChangeText={description => setDescription(description)} defaultValue={description} placeholderTextColor={'gray'}/>
               <TextInput style={styles.inputTxt} placeholder='Unidades' onChangeText={units => setUnits(units)} defaultValue={units} placeholderTextColor={'gray'} keyboardType='numeric'/>
               <TextInput style={styles.inputTxt} placeholder='Precio Unitario $' onChangeText={unitPrice => setUnitPrice(unitPrice)} defaultValue={unitPrice} placeholderTextColor={'gray'} keyboardType='numeric'/>
+            </View>
             <View style={styles.buttons}>
               <TouchableHighlight
                 style={[styles.button,{backgroundColor:'red'}]}
                 onPress={() => close_modal()}>
-                <Text style={styles.button_text}>Cancelar  <Icon name='close-circle' size={24}/></Text>
+                <Text style={styles.button_text}>Cancelar  <Icon name='close-circle' size={26}/></Text>
               </TouchableHighlight>
               <TouchableHighlight
                 style={styles.button}
@@ -106,7 +119,7 @@ export default function Products() {
                     close_modal()
                   }
                 }}>
-                <Text style={styles.button_text}>Comprar  <Icon name='add-circle' size={24}/></Text>
+                <Text style={styles.button_text}>Comprar  <Icon name='add-circle' size={26}/></Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -142,11 +155,11 @@ const styles = StyleSheet.create({
       height: height/10,
     },
     modalView: {
-      marginVertical:height*0.3,
+      marginTop:height*0.25,
       marginHorizontal:width/8,
       backgroundColor: colors.LightColor,
       borderRadius: 20,
-      paddingVertical: 10,
+      paddingBottom: 'auto',
       alignItems: 'center',
       justifyContent:'center',
       shadowColor: '#000',
@@ -158,32 +171,41 @@ const styles = StyleSheet.create({
       shadowRadius: 4,
       elevation: 5,
     },
+    modal_header:{
+      backgroundColor:colors.PrimaryColor,
+      width: '100%',
+      borderTopStartRadius:20,
+      borderTopEndRadius:20,
+      paddingVertical: 10,
+    }, 
+    modal_body:{
+    },
     modal_txt:{
       fontSize:30,
       fontWeight:'bold',
-      color: colors.DarkColor,
+      color:colors.LightColor,
       textAlign:'center',
     },
     inputTxt:{
       backgroundColor:colors.LightColor,
-      borderColor:colors.SecondaryColor,
+      borderColor:colors.DarkColor,
       color:colors.DarkColor,
-      paddingVertical:15,
+      paddingVertical:10,
+      paddingHorizontal:20,
       borderRadius:15,
       borderWidth:3,
-      marginVertical:5,
+      marginVertical:10,
       fontSize:18,
       textAlign:'center',
-      width:'70%',
     },
     buttons:{
       flexDirection: 'row'
     },
     button: {
       borderRadius: 20,
-      padding: 5,
+      padding: 10,
       elevation: 2,
-      marginTop:10,
+      marginVertical:15,
       marginHorizontal:5,
       backgroundColor:colors.SecondaryColor,
     },
